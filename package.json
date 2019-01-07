@@ -1,0 +1,28 @@
+{
+  "name": "parfunc",
+  "version": "1.0.0",
+  "description": "parfunc allows you to declare functions that can be used for parallel tasks and apply them to lists and sets of data",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodeunit test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dfellis/parfunc.git"
+  },
+  "keywords": [
+    "parfunc",
+    "parallel",
+    "function",
+    "list",
+    "set",
+    "commutative",
+    "associative"
+  ],
+  "author": "David Ellis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dfellis/parfunc/issues"
+  },
+  "homepage": "https://github.com/dfellis/parfunc#readme"
+}
