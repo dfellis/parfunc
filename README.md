@@ -39,7 +39,7 @@ When you have a large amount of data but only a small portion is relevant and th
 
 This may not be an exhaustive set of parallel computation, but I believe it covers 90+% of the cases, and the four classes above can be reduced into the following statement: An input set `S` is converted into `n` operations that each produce `o` outputs that become a total output set `T`. For the first class `O(S) == O(n) == O(o) == O(T)`, for the second class `O(S)` may or may not be equal to `O(n)` while `O(n) == O(o) == O(T)`, for the third class `O(S)` may or may not equal `O(n)` while `O(n) != O(o)` and `O(o) == O(T) == 1`, and the final class has no guarantees at all on the equality between those different counts.
 
-(Will show later that the fourth class of parallelization can be broken into a first class and second class that can be run simultaneously, but in sequence for any particular input.)
+(The fourth class of parallelization can be broken into a first class and second class that can be run simultaneously, but in sequence for any particular input. The first class parallel function maps the inputs into an array of inputs to the second function, each with two arguments, the original data and the output location to be updated. The second class function would then perform a reduce-like operation on the output data for the specified location using the input, some sort of locking mechanism on the data is necessary to allow this without potential data loss.)
 
 ### Function arity
 

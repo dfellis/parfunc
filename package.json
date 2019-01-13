@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/dfellis/parfunc/issues"
   },
-  "homepage": "https://github.com/dfellis/parfunc#readme"
+  "homepage": "https://github.com/dfellis/parfunc#readme",
+  "devDependencies": {
+    "nodeunit": "^0.11.3"
+  }
 }
