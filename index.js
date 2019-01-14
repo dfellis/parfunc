@@ -1,14 +1,48 @@
-// The AsyncFunction constructor for some dumb reason was not added to the Global scope
+// The AsyncFunction constructor for some reason wasn't added to the Global scope
 const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor
+
+// The Arrow functions are mostly regular functions with `this` pre-bound
+const ArrowFunction = function ArrowFunction(...args) {
+  return new Function(...args).bind(global)
+}
 
 // After the source function is properly parsed, construct the new pure function with one of the
 // following constructor functions
 const funcConstructors = {
-  'async': AsyncFunction,
-  'function*': Generator, // TODO: Just error on these? Iterators are inherently non-parallel
-  'function': Function,
-  '=>': Function, // TODO: Make something special for these? They behave slightly differently...
+  '^async': AsyncFunction,
+  '^function*': Generator, // TODO: Just error on these? Iterators are inherently non-parallel
+  '^function': Function,
+  '=>': ArrowFunction,
 }
+
+// This function parses the source of the provided function and returns an object with an array
+// of variable names, the function body, and which constructor to rebuild it in.
+const parseFunc = (f) => {
+  // First get the source code 
+  const funcStr = f.toString()
+  // Determine the relevant constructor function
+  const FuncConstructor = Object.keys(funcConstructors)
+    .filter(matcher => funcStr.match(new RegExp(matcher)))[0]
+  
+  if (FuncConstructor === Function) {
+    // TODO: Make this no-semicolon-safe
+    return {
+      constructor: 'Function',
+      args: funcStr.replace(/\n/gm, '')..replace(/^function [^\(]*\(([^\)]*)\).*/, '$1'),
+      expression: funcStr.replace(/\n/gm, '').replace(/^function [^(]*\([^)]*\) {(.*)}/, '$1'),
+    }
+  }
+
+  if (FuncConstructor === ArrowFunction) {
+    // TODO: Writing a parser for this will suck.
+    // Maybe I just just depend on a real JS parser
+    return null
+  }
+
+  // etc
+  return null
+}
+
 
 const pure = (f) => {
   if (f.pure) return f
